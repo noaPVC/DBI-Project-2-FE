@@ -1,6 +1,35 @@
+$font-color: rgb(84, 84, 84);
+$font-opacity-color: rgba(84, 84, 84, 0.4);
 
 /* page wrapper styling */
 
 .page-wrapper {
     margin: 2rem;
+
+    .filter-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        margin-top: 2rem;
+
+        input {
+            padding:10px;
+            border:0;
+            box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+
+            border-radius: 6px;
+            color: $font-color;
+            font-weight: 500;
+
+            &::placeholder {
+                color: $font-opacity-color;
+            }
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
 }
