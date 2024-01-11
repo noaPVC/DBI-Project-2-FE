@@ -9,8 +9,10 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [
     CommonModule,
-    PageViewComponent,
-    RouterOutlet
+    RouterOutlet,
+
+    // used components in-app.component.ts
+    PageViewComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

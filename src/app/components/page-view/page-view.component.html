@@ -7,6 +7,8 @@
     </div>
 
     <div class="list">
-        
+        <app-question *ngFor="let question of (questions$ | async)"
+            [question]="question">
+        </app-question>    
     </div>
 </div>
