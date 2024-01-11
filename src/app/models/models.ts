@@ -1,30 +1,36 @@
-
-export interface QuestionDto {
-    _id: { $oid: string }
-    questionId: number
-    questionIdAccess: { $binary: { base64: string } } // guid
-    title: string
-    description: string
-    correctAnswerId: number | null
-    correctAnswer: AnswerDto | null
-    tags: TagDto[]
-    answers: AnswerDto[]
+export interface QuestionCreatedByMongoFE {
+    UserId: string
+    Name: string
+    Email: string
 }
 
-export interface TagDto {
-    _id: { $oid: string }
-    tagId: number
-    name: string
-    questions: QuestionDto[]
+export interface QuestionTagMongoFE {
+    TagId: string
+    Name: string
 }
 
-export interface AnswerDto {
-    _id: { $oid: string }
-    answerId: number
-    question: QuestionDto
-    questionId: number
-    correctAnswerQuestion?: QuestionDto | null
-    correctAnswerQuestionId?: number | null
-    title: string
-    description: string
+export interface QuestionAnswerCreatedByMongoFE {
+    UserId: string
+    Name: string
+    Email: string
+}
+
+export interface QuestionAnswerMongoFE {
+    AnswerId: string
+    Title: string
+    Description: string
+    CreatedAt: Date
+    UpdatedAt?: Date
+    CreatedBy: QuestionAnswerCreatedByMongoFE
+}
+
+export interface QuestionMongoFE {
+    QuestionId: string
+    Title: string
+    Description: string
+    CreatedAt: Date
+    UpdatedAt?: Date
+    CreatedBy: QuestionCreatedByMongoFE
+    Tags: QuestionTagMongoFE[]
+    Answers: QuestionAnswerMongoFE[]
 }

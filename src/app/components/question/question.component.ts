@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { QuestionDto } from '../../models/models';
 import { CommonModule } from '@angular/common';
+import { QuestionMongoFE } from '../../models/models';
 
 @Component({
   selector: 'app-question',
@@ -13,6 +13,6 @@ import { CommonModule } from '@angular/common';
 })
 export class QuestionComponent {
 
-  @Input() question: QuestionDto | null = null
+  @Input() question: QuestionMongoFE | null = null
 
 }

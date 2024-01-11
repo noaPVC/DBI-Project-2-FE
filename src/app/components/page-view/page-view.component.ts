@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { QuestionComponent } from '../question/question.component';
-import { QuestionDto } from '../../models/models';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { QuestionMongoFE } from '../../models/models';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-page-view',
@@ -14,12 +15,18 @@ import { CommonModule } from '@angular/common';
   // used components in-page-view.component.ts
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     QuestionComponent
   ]
 })
 export class PageViewComponent implements OnInit {
 
-  questions$: Observable<QuestionDto[]> = this.dataService.getQuestions()
+  readonly questions$: Observable<QuestionMongoFE[]> = this.dataService.getQuestions()
+
+  filterFormGroup = new FormGroup({
+    date: new FormControl<Date | null>(new Date()),
+    searchTerm: new FormControl<string>('', { nonNullable: true })
+  })
 
   constructor(private dataService: DataService) { }
 
