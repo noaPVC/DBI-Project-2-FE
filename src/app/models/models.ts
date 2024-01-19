@@ -1,27 +1,10 @@
-export interface QuestionCreatedByMongoFE {
-    UserId: string
-    Name: string
-    Email: string
-}
-
-export interface QuestionTagMongoFE {
-    TagId: string
-    Name: string
-}
-
-export interface QuestionAnswerCreatedByMongoFE {
-    UserId: string
-    Name: string
-    Email: string
-}
-
 export interface QuestionAnswerMongoFE {
     AnswerId: string
     Title: string
     Description: string
     CreatedAt: Date
     UpdatedAt?: Date
-    CreatedBy: QuestionAnswerCreatedByMongoFE
+    CreatedBy: CreatedByMongoFE
 }
 
 export interface QuestionMongoFE {
@@ -30,7 +13,18 @@ export interface QuestionMongoFE {
     Description: string
     CreatedAt: Date
     UpdatedAt?: Date
-    CreatedBy: QuestionCreatedByMongoFE
+    CreatedBy: CreatedByMongoFE
     Tags: QuestionTagMongoFE[]
     Answers: QuestionAnswerMongoFE[]
+}
+
+export interface CreatedByMongoFE {
+    UserId: string
+    Name: string
+    Email: string
+}
+
+export interface QuestionTagMongoFE {
+    TagId: string
+    Name: string
 }

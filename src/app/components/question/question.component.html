@@ -1,9 +1,50 @@
 <div class="question-wrapper">
-    <p class="title">
-        {{ question?.Title }}
-    </p>
+    <div class="icons-vertical">
+        <div class="icon-badge comments-answers">
+            <i class="fi fi-rr-comments-question-check"></i>
+        </div>
 
-    <p class="description">
-        {{ question?.Description }}
-    </p>
+        <div class="icon-badge answers" *ngIf="question?.Answers?.length">
+            <i class="fi fi-rr-chatbot"></i>
+            <span>{{ question?.Answers?.length }}</span>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="text-content">
+            <p class="title">
+                {{ question?.Title }}
+            </p>
+
+            <p class="description">
+                {{ question?.Description }}
+            </p>
+        </div>
+
+        <div class="bottom">
+            <div class="tags">
+                <div class="icon-badge">
+                    <i class="fi fi-rr-tags"></i>
+                </div>
+
+                <ng-container *ngFor="let tag of question?.Tags; let i = index">
+                    <div class="tag" *ngIf="i < 2">
+                        <span>{{ tag.Name }}</span>
+                    </div>
+                </ng-container>
+
+                <div *ngIf="question?.Tags?.length! > 2" class="additional-tags">
+                    +{{ question?.Tags?.length! - 2 }}
+                </div>
+            </div>
+
+            <div class="user">
+                <div class="icon-badge user">
+                    <i class="fi fi-rr-user"></i>
+                </div>
+
+                <p>{{ question?.CreatedBy?.Name }}</p>
+            </div>
+        </div>
+    </div>
 </div>

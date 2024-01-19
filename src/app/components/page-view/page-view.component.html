@@ -1,13 +1,60 @@
-<div class="page-wrapper">
-    <h1>Questions to Filter</h1>
+<div class="page-wrapper flex column">
+    <header class="flex column">
+        <h1>Questions to Filter</h1>
 
-    <div class="filter-wrapper" [formGroup]="filterFormGroup">
-        <input type="date" placeholder="Questons filter by date">
-        <input type="text" placeholder="Full term search">
-    </div>
+        <div class="filter-wrapper flex column" [formGroup]="filterFormGroup">
+            <div class="flex">
+                <input 
+                    class="input"
+                    formControlName="from"
+                    type="date"
+                    placeholder="From"
+                >
 
-    <div class="list">
-        <app-question *ngFor="let question of (questions$ | async)"
+                <input 
+                    class="input"
+                    formControlName="till"
+                    type="date"
+                    placeholder="Till"
+                >
+            </div>
+
+            <input 
+                class="input"
+                formControlName="searchTerm"
+                type="text"
+                placeholder="Search"
+            >
+
+            <div class="flex">
+                <select
+                    class="input select"
+                    formControlName="userId">
+
+                    <option [defaultSelected]="true">All users</option>
+
+                    <ng-container *ngFor="let user of (users$ | async)">
+                        <option [value]="user.Name">{{ user.Name }}</option>
+                    </ng-container>
+                </select>
+
+                <select 
+                    class="input select"
+                    formControlName="tagId">
+
+                    <option [defaultSelected]="true">All tags</option>
+
+                    <ng-container *ngFor="let tag of (tags$ | async)">
+                        <option [value]="tag.Name">{{ tag.Name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+        </div>    
+    </header>
+
+    <div class="list flex column">
+        <app-question 
+            *ngFor="let question of (questions$ | async)"
             [question]="question">
         </app-question>    
     </div>

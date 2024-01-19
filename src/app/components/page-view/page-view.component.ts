@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/data.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DataService, QuestionQuery } from '../../services/data.service';
 import { QuestionComponent } from '../question/question.component';
-import { Observable } from 'rxjs';
+import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
+import { CreatedByMongoFE, QuestionMongoFE, QuestionTagMongoFE } from '../../models/models';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { QuestionMongoFE } from '../../models/models';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-page-view',
@@ -19,18 +19,52 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
     QuestionComponent
   ]
 })
-export class PageViewComponent implements OnInit {
+export class PageViewComponent implements OnInit, OnDestroy {
 
-  readonly questions$: Observable<QuestionMongoFE[]> = this.dataService.getQuestions()
+  questions$: Observable<QuestionMongoFE[]> = this.dataService.getQuestions()
+
+  readonly tags$: Observable<QuestionTagMongoFE[]> = this.dataService.getTags()
+  readonly users$: Observable<CreatedByMongoFE[]> = this.dataService.getUsers()
+
+  readonly _unsubscribe$ = new Subject<void>()
 
   filterFormGroup = new FormGroup({
-    date: new FormControl<Date | null>(new Date()),
-    searchTerm: new FormControl<string>('', { nonNullable: true })
+    from: new FormControl<string | null>(null),
+    till: new FormControl<string | null>(null),
+    searchTerm: new FormControl<string>('', Validators.required),
+    userId: new FormControl<string | null>(null),
+    tagId: new FormControl<string | null>(null)
   })
 
   constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
+
+    this.filterFormGroup.valueChanges
+      .pipe(
+        takeUntil(this._unsubscribe$),
+        debounceTime(500))
+      .subscribe(value => {
+        console.clear()
+        console.log(value)
+
+        this.questions$ = this.dataService.getQuestions(this.mapToQuestionQuery())
+      })
+  }
+
+  mapToQuestionQuery(): QuestionQuery {
+    return {
+      from: this.filterFormGroup.controls.from.value!,
+      till: this.filterFormGroup.controls.till.value!,
+      searchTerm: this.filterFormGroup.controls.searchTerm.value!!,
+      userId: this.filterFormGroup.controls.userId.value!,
+      tagId: this.filterFormGroup.controls.tagId.value!
+    }
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribe$.next()
+    this._unsubscribe$.complete()
   }
 
 }
